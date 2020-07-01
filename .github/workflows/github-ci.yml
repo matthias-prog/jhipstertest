@@ -31,10 +31,10 @@ jobs:
             - name: Run frontend test
               run: npm run test
             - name: Package application
-              run: ./mvnw -ntp package -Pprod -DskipTests
+              run: ./mvnw -ntp package -DskipTests
             - name: Build and publish docker image
               if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/'))
               run: |
                   GIT_TAG=:${GITHUB_REF#refs/tags/}
                   DOCKER_TAG=${GIT_TAG#:refs/heads/master}
-                  ./mvnw -ntp jib:build -Djib.to.image=matthiasprog/hackathontest${DOCKER_TAG} -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"
+                  ./mvnw -ntp jib:build -Djib.to.image=matthiasprog/hackathontest:dev -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"
