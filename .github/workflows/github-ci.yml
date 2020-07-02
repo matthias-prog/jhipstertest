@@ -38,3 +38,9 @@ jobs:
                   GIT_TAG=:${GITHUB_REF#refs/tags/}
                   DOCKER_TAG=${GIT_TAG#:refs/heads/master}
                   ./mvnw -ntp jib:build -Djib.to.image=matthiasprog/hackathontest${DOCKER_TAG} -Djib.to.auth.username="${{ secrets.DOCKER_USERNAME }}" -Djib.to.auth.password="${{ secrets.DOCKER_PASSWORD }}"
+            - name: Trigger deploy
+              uses: Consensys/kubernetes-action@master
+              env:
+                 KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+              with:
+                args: apply -f jhipstertest-k8s/
