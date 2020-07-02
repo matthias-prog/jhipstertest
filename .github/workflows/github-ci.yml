@@ -44,7 +44,7 @@ jobs:
                  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
               with:
                 args: apply -f jhipstertest-k8s/
-            - name: Trigger deploy
+            - name: Restart Pod
               uses: Consensys/kubernetes-action@master
               env:
                  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
